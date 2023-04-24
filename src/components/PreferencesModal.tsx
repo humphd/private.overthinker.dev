@@ -2,7 +2,6 @@ import {
   FormControl,
   FormLabel,
   FormHelperText,
-  Input,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -38,12 +37,6 @@ function PreferencesModal({ isOpen, onClose }: PreferencesModalProps) {
           <ModalCloseButton />
           <ModalBody>
             <VStack gap={2}>
-              <FormControl>
-                <FormLabel>OpenAI API Key</FormLabel>
-                <Input type="password" placeholder="TODO..." />
-                <FormHelperText>Your API Key is stored in browser storage</FormHelperText>
-              </FormControl>
-
               <FormControl>
                 <FormLabel>GPT Model</FormLabel>
                 <Select
