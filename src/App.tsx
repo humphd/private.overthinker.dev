@@ -4,12 +4,10 @@ import { AIChatMessage, BaseChatMessage, HumanChatMessage } from "langchain/sche
 import { CallbackManager } from "langchain/callbacks";
 import { Box, Flex, useDisclosure, useColorModeValue, useToast } from "@chakra-ui/react";
 
-import ApiKeyForm from "./components/ApiKeyForm";
 import PromptForm from "./components/PromptForm";
 import MessageView from "./components/MessageView";
 import Header from "./components/Header";
 import { useSettings } from "./hooks/use-settings";
-import { useLocalStorage } from "react-use";
 
 function obj2msg(obj: { role: string; content: string }): BaseChatMessage {
   console.log(obj.role);
@@ -33,7 +31,6 @@ const initialMessages: BaseChatMessage[] = [
 ];
 
 function App() {
-  const [apiKey, setApiKey] = useLocalStorage<string>("openai_api_key");
   const { isOpen: isExpanded, onToggle: toggleExpanded } = useDisclosure();
   const [singleMessageMode, setSingleMessageMode] = useState(false);
   const { settings } = useSettings();
@@ -94,7 +91,7 @@ function App() {
     try {
       // Send chat history to API
       const chat = new ChatOpenAI({
-        openAIApiKey: apiKey,
+        openAIApiKey: settings.apiKey,
         temperature: 0,
         streaming: true,
         modelName: settings.model,
@@ -123,11 +120,6 @@ function App() {
     const newMessages = [...messages];
     newMessages.splice(index, 1);
     setMessages(newMessages);
-  }
-
-  // We need an OpenAI API Key before showing the full UI
-  if (!apiKey) {
-    return <ApiKeyForm setApiKey={setApiKey} />;
   }
 
   return (
